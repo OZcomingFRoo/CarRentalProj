@@ -1,0 +1,47 @@
+﻿@model IEnumerable<CarRentalProj.Models.RentedCarItem>
+
+@{
+    ViewBag.Title = "ManageCars";
+}
+@Html.Partial("Nav")
+
+
+<h2>ManageCars</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            Car Identity Number
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CarName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Start)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.End)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CarName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Start)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.End)
+        </td>
+        
+    </tr>
+}
+
+</table>

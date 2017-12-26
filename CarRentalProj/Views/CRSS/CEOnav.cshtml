@@ -1,0 +1,46 @@
+﻿<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/CRSS/CEO">Car Rentz SS - CEO</a> <!-- SS stands for Server Side -->
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-left">
+                <li class="active"><a href="/CarRentz/Home" target="_blank">Go to Website</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Table Command<span class="caret"></span></a>
+                    <ul class="dropdown-menu" id="">
+                        <li><a href="/CRSS/CEO_UsersCMD">User Command Control</a></li>
+                        <li><a href="/CRSS/CEO_CarsCMD">Car Command Control</a></li>
+                        <li><a href="/CRSS/CEO_CarTypeCMD">Car Type (Details) Command Control</a></li>
+                        <li><a href="/CRSS/CEO_OrderCMD">Order (Rent) Command Control</a></li>
+                        <li><a href="/CRSS/CEO_EmpsCMD">Workers Command Control</a></li>
+                        <li><a href="/CRSS/EmployeePage">Employee Command Control</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/CRSS/Exit"><span class="glyphicon glyphicon-user"></span> Exit</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Create/Add<span class="caret"></span></a>
+                    <ul class="dropdown-menu" id="">
+                        <li><a href="/CRSS/CreateUser">User</a></li>
+                        <li><a href="/CRSS/CreateCar">Car</a></li>
+                        <li><a href="/CRSS/CreateCarType">Car Type (Details)</a></li>
+                        <li><a href="/CRSS/CreateOrder">Order (Rent)</a></li>
+                        <li><a href="/CRSS/CreateEmployee">Employee</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

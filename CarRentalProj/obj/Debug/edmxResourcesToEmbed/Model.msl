@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CarRentzModelStoreContainer" CdmEntityContainer="CarRentzEntities">
+    <EntitySetMapping Name="CarDetails">
+      <EntityTypeMapping TypeName="CarRentzModel.CarDetail">
+        <MappingFragment StoreEntitySet="CarDetails">
+          <ScalarProperty Name="IDDetail" ColumnName="IDDetail" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+          <ScalarProperty Name="Model" ColumnName="Model" />
+          <ScalarProperty Name="DailyRent" ColumnName="DailyRent" />
+          <ScalarProperty Name="LateRent" ColumnName="LateRent" />
+          <ScalarProperty Name="GearType" ColumnName="GearType" />
+          <ScalarProperty Name="IsObsolete" ColumnName="IsObsolete" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Cars">
+      <EntityTypeMapping TypeName="CarRentzModel.Car">
+        <MappingFragment StoreEntitySet="Cars">
+          <ScalarProperty Name="CarID" ColumnName="CarID" />
+          <ScalarProperty Name="Details" ColumnName="Details" />
+          <ScalarProperty Name="KiloMetraz" ColumnName="KiloMetraz" />
+          <ScalarProperty Name="IsOperational" ColumnName="IsOperational" />
+          <ScalarProperty Name="FactoryYear" ColumnName="FactoryYear" />
+          <ScalarProperty Name="Branch" ColumnName="Branch" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ReservedCars">
+      <EntityTypeMapping TypeName="CarRentzModel.ReservedCar">
+        <MappingFragment StoreEntitySet="ReservedCars">
+          <ScalarProperty Name="ReservedID" ColumnName="ReservedID" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="ReturnedDate" ColumnName="ReturnedDate" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="CarID" ColumnName="CarID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="CarRentzModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="IDNumber" ColumnName="IDNumber" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+          <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Workers">
+      <EntityTypeMapping TypeName="CarRentzModel.Worker">
+        <MappingFragment StoreEntitySet="Workers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="PSWD" ColumnName="PSWD" />
+          <ScalarProperty Name="profession" ColumnName="profession" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="AdditionalSearch" FunctionName="CarRentzModel.Store.AdditionalSearch">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="CarRentzModel.AdditionalSearch_Result">
+          <ScalarProperty Name="CarID" ColumnName="CarID" />
+          <ScalarProperty Name="Details" ColumnName="Details" />
+          <ScalarProperty Name="KiloMetraz" ColumnName="KiloMetraz" />
+          <ScalarProperty Name="IsOperational" ColumnName="IsOperational" />
+          <ScalarProperty Name="FactoryYear" ColumnName="FactoryYear" />
+          <ScalarProperty Name="Branch" ColumnName="Branch" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="CarDetailsChangeObs" FunctionName="CarRentzModel.Store.CarDetailsChangeObs" />
+    <FunctionImportMapping FunctionImportName="CompanyTags" FunctionName="CarRentzModel.Store.CompanyTags" />
+    <FunctionImportMapping FunctionImportName="GetNameOfRentedCar" FunctionName="CarRentzModel.Store.GetNameOfRentedCar" />
+    <FunctionImportMapping FunctionImportName="ModelTags" FunctionName="CarRentzModel.Store.ModelTags" />
+    <FunctionImportMapping FunctionImportName="RentCar" FunctionName="CarRentzModel.Store.RentCar" />
+    <FunctionImportMapping FunctionImportName="UpdateCar" FunctionName="CarRentzModel.Store.UpdateCar" />
+    <FunctionImportMapping FunctionImportName="UpdateCarType" FunctionName="CarRentzModel.Store.UpdateCarType" />
+    <FunctionImportMapping FunctionImportName="UpdateEmp" FunctionName="CarRentzModel.Store.UpdateEmp" />
+    <FunctionImportMapping FunctionImportName="UpdateOrder" FunctionName="CarRentzModel.Store.UpdateOrder" />
+    <FunctionImportMapping FunctionImportName="UpdateProfile" FunctionName="CarRentzModel.Store.UpdateProfile" />
+    <FunctionImportMapping FunctionImportName="UpdateUser" FunctionName="CarRentzModel.Store.UpdateUser" />
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,122 @@
+﻿
+@{
+    ViewBag.Title = "CEO_CarsCMD";
+}
+@Html.Partial("CEOnav")
+
+<h1> Car Data Table </h1>
+<div ng-controller="CarTableCtrl" ng-app="app">
+    <div>
+        <div class="row">
+            <div class="col-md-8">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                CarID
+                            </th>
+                            <th>
+                                Car Name
+                            </th>
+                            <th>
+                                Is Operational ?
+                            </th>
+                            <th>
+                                Options
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="Item in ListResult">
+                            <td>{{Item.CarID}} </td>
+                            <td>{{Item.CarName}} </td>
+                            <td>{{Item.Operational}} </td>
+                            <td> <button data-toggle="modal" data-target="#myModal" ng-click="Details(Item.CarID)">Options</button></td>
+                            <td> <button class="btn btn-danger" ng-click="Remove(Item.CarID)">Remove</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-4">
+                <div class="tabbable" id="tabs-894471">
+                    <ul class="nav nav-tabs">
+                        <li>
+                            <a href="#panelname" data-toggle="tab">Car model name</a>
+                        </li>
+                        <li class="active">
+                            <a href="#panelnum" data-toggle="tab">Car ID number</a>
+                        </li>
+                        <li class="active">
+                            <a href="#panelRefresh" data-toggle="tab" ng-click="Refresh()">Refresh</a>
+                        </li>
+                    </ul>
+
+
+                    <div class="tab-content">
+                        <div class="tab-pane" id="panelnum">
+                            <p>
+                                Car Number ID
+                            </p>
+                            <input type="text" ng-model="par2" />
+                            <button ng-click="SearchCarId()">Filter</button>
+                        </div>
+
+
+                        <div class="tab-pane active" id="panelname">
+                            <p>
+                                Car Model
+                            </p>
+                            <input lass="form-control" type="text" name="carid" ng-model="par1" />
+                            <button ng-click="SearchCarName()">Filter</button>
+                        </div>
+
+
+                        <div class="tab-pane active" id="panelRefresh">
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Change this row</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="wrap">
+                        <label>Car Id Number</label>
+                        <p>{{obj.CarID}}</p>
+                        <label>ID of Details</label>
+                        <p>{{obj.Details}}</p>
+                        <label>KiloMetraz</label>
+                        <p>{{obj.Kilo}}</p>
+                        <label>Factory Year</label>
+                        <p>{{obj.Year}}</p>
+                        <label>Operational</label>
+                        <p>{{obj.Isop}}</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <a class="btn btn-info" href="/CRSS/EditCar?id={{obj.CarID}}">Edit</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="~/ServerScripts/CeoCarCMD.js"></script>
+

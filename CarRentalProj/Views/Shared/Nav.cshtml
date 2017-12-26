@@ -1,0 +1,55 @@
+﻿@using CarRentalProj.CSCode
+
+@*<script src="~/Scripts/CookieFunctions.js"></script>*@
+<script>
+    var p1 = GetCookie("Id")
+    var p2 = GetCookie("PSWD")
+    if (p1 != "" && p2 != "") {
+        SetCookie("Id", p1, 30);
+        SetCookie("PSWD", p2, 30);
+    }
+    @*This script does not check if the cookies are valid !! it is for prolonging the life of Cookie as long as the User travels between sites. *@
+</script>
+
+@{
+    if (Session["Id"] != null && Session["PSWD"] != null)
+    {
+        @Html.Partial("LoggedUserNav");
+    }//Utimatly , A logged User is when the server saves the Id and password of his/her in server's Session Storage
+    else
+    {
+
+        if (Request.Cookies.Get("Id") == null || Request.Cookies.Get("PSWD") == null) //Check to see if user DOESN'T have ONE of the Cookies
+        {
+            Response.Cookies.Add(new HttpCookie("Id", "") { Expires = DateTime.Now.AddDays(-1) });
+            Response.Cookies.Add(new HttpCookie("PSWD", "") { Expires = DateTime.Now.AddDays(-1) });
+            Response.Cookies[FormsAuthentication.FormsCookieName].Expire‌​s = DateTime.Now.AddDays(-1);
+            Session.Abandon(); 
+            @Html.Partial("RegularNav");
+        }//If true simply Give him the Guest Navigation Bar
+
+
+        else
+        {
+            var Id = Request.Cookies.Get("Id").Value;
+            var PSWD = Encryptor.Decrypt(Request.Cookies.Get("PSWD").Value);
+            //Firstly Check to see if Cookies are valid and not "False Cookies"
+            if (ClientOperation.TryToLogin(Id, PSWD))
+            {
+                Session["Id"] = Id;
+                Session["PSWD"] = PSWD;
+                @Html.Partial("LoggedUserNav");
+            }
+            else //In case TryLogin Failed due to false Cookies
+            {
+                Response.Cookies.Add(new HttpCookie("Id", "") { Expires = DateTime.Now.AddDays(-1) });
+                Response.Cookies.Add(new HttpCookie("PSWD", "") { Expires = DateTime.Now.AddDays(-1) });
+                Response.Cookies[FormsAuthentication.FormsCookieName].Expire‌​s = DateTime.Now.AddDays(-1);
+                Session.Abandon(); 
+                @Html.Partial("RegularNav");
+            }
+
+        }
+    }
+}
+<br />

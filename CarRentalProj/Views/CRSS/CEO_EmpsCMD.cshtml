@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "CEO_EmpsCMD";
+}
+@Html.Partial("CEOnav")
+
+<h2>CEO_EmpsCMD</h2>
+
+<div ng-controller="UserTableCtrl" ng-app="app">
+    <div class="row">
+        <div class="col-md-8">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            ID Number
+                        </th>
+                        <th>
+                            User Name
+                        </th>
+                        <th>
+                            Mail
+                        </th>
+                        <th>
+                            Options
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="Emp in ListResult">
+                        <td>{{Emp.Id}} </td>
+                        <td>{{Emp.FullName}} </td>
+                        <td>{{Emp.PSWD}} </td>
+                        <td>{{Emp.profession}} </td>
+                        <td>
+                            <a class="btn btn-primary" href="/CRSS/EditEmp?id={{Emp.Id}}">Edit</a>
+                            <button class="btn btn-danger" ng-click="Remove(Emp.Id)">Remove</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        @* Table Result *@
+
+        <div class="col-md-4">
+            <div class="tabbable" id="tabs-894471">
+                <ul class="nav nav-tabs">
+                    <li>
+                        <a href="#panelname" data-toggle="tab">Name</a>
+                    </li>
+                    <li class="active">
+                        <a href="#panelid" data-toggle="tab">UserID</a>
+                    </li>
+                    <li class="active">
+                        <a href="#panelRefresh" data-toggle="tab" ng-click="Refresh()">Refresh</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane" id="panelname">
+                        <p>
+                            By Name
+                        </p>
+                        <input type="text" ng-model="name" />
+                        <button ng-click="SearchByName()">Filter</button>
+                    </div>
+                    <div class="tab-pane active" id="panelid">
+                        <p>
+                            By ID
+                        </p>
+                        <input type="text" ng-model="id" />
+                        <button ng-click="SearchById()">Filter</button>
+                    </div>
+                    <div class="tab-pane active" id="panelRefresh">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       
+    </div>
+</div>
+<script src="~/ServerScripts/CeoEmpCMD.js"></script>
+

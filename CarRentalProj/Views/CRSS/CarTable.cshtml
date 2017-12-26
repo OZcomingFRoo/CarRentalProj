@@ -1,0 +1,66 @@
+﻿<h1> Car Data Table </h1>
+
+<div ng-controller="CarTableCtrl">
+    <div class="row">
+        <div class="col-md-8">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            CarID
+                        </th>
+                        <th>
+                            Car Name
+                        </th>
+                        <th>
+                            Is Operational ?
+                        </th>
+                        <th>
+                            Options
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="Item in ListResult">
+                        <td>{{Item.CarID}} </td>
+                        <td>{{Item.CarName}} </td>
+                        <td>{{Item.Operational}} </td>
+                        <td> <button>Details</button> <button>Edit</button> <button>Delete</button> </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        @* Table Result *@
+
+        <div class="col-md-4">
+
+            <form>
+                <div class="form-group">
+                    <label for="carid">Car Identity Number</label>
+                    <input lass="form-control" type="text" name="carid" ng-model="par" ng-keypress="SearchCar()" />
+                </div>
+                <div class="form-group">
+                    <label for="op"> Gear Type </label>
+                    <input class="form-control" type="checkbox" ng-model="Op" id="op" ng-change="SearchCar()" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+     var app = angular.module('app', []);
+     app.controller('CarTableCtrl', function ($scope, $http) {
+         $scope.par = "";
+         $scope.Op = true;
+         $scope.ListResult = [];
+
+         $scope.SearchCar = function () {
+             $http.get("/CRSS/SearchCar?par=" + $scope.par + "&Operational=" + $scope.Op).then(function (response)
+             {
+                 $scope.ListResult = response.data;
+             });
+         }
+  });
+</script>

@@ -1,0 +1,220 @@
+﻿<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+@{
+    ViewBag.Title = "EmployeePage";
+}
+
+<h2>Employee Control</h2>
+@{
+    if (User.Identity.Name == "Emp")
+    {
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/CRSS/EmployeePage">CRSS -Employee</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li class="active"><a href="/CarRentz/Home">Go To Website</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/CRSS/Exit"><span class="glyphicon glyphicon-log-in"></span> Exit</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    }
+    else
+    {
+        @Html.Partial("CEOnav")
+    }
+
+} 
+
+
+
+
+    <div class="container-fluid" ng-app="app" ng-controller="RCarCtrl">
+        
+        <div class="row" id="Calc" hidden>
+            <div class="col-md-6">
+                <h3>Total Price {{Calc}}</h3>
+            </div>
+            <div class="col-md-6">
+                <button ng-click="CloseR()">Close</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+                <h3>
+                    Employee Control
+                </h3>
+            </div>
+            <div class="col-md-4">
+            </div>
+        </div>
+        @* Title *@
+
+
+
+        <div class="row">
+            <div class="col-md-8">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                Car
+                            </th>
+                            <th>
+                                User Owner
+                            </th>
+                            <th>
+                                Options
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="Order in ListResult">
+                            <td>{{Order.OrderID}} </td>
+                            <td>{{Order.CarName}} ID =>  {{Order.CarIdNum}}</td>
+                            <td>{{Order.Owner}} </td>
+                            <td>
+                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#DModal" ng-click="Details(Order.OrderID)">Details/Open</button>
+                                <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#RModal" ng-click="set(Order.OrderID)">Retrive Car</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            @* Table Result *@
+
+            <div class="col-md-4">
+                <h3>
+                    Search by CarID or UserID
+                </h3>@*Search Title*@
+
+
+                <div class="tabbable" id="tabs-894471">
+                    <ul class="nav nav-tabs">
+                        <li>
+                            <a href="#panelcar" data-toggle="tab">CarID</a>
+                        </li>
+                        <li class="active">
+                            <a href="#paneluser" data-toggle="tab">UserID</a>
+                        </li>
+                        <li class="active">
+                            <a href="#panelRefresh" data-toggle="tab" ng-click="Refresh()">Refresh</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane" id="panelcar">
+                            <p>
+                                Car Number ID
+                            </p>
+                            <input type="text" ng-model="CarID" />
+                            <input type="checkbox" ng-model="Inc" /> Only non-completed orders
+                            <button ng-click="SearchCar()">Filter</button>
+                        </div>
+                        <div class="tab-pane active" id="paneluser">
+                            <p>
+                                User ID
+                            </p>
+                            <input type="text" ng-model="UserID" />
+                            <input type="checkbox" ng-model="Inc" /> Only non-completed orders
+                            <button ng-click="SearchUser()">Filter</button>
+                        </div>
+                        <div class="tab-pane active" id="panelRefresh">
+                            <input type="checkbox" ng-model="Inc" ng-change="Refresh()"/> Only non-completed orders
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <!-- Details Modal -->
+        <div class="modal fade" id="DModal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Change this row</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="wrap">
+                            
+                            <label>Car Id Number</label>
+                            <p>{{obj.Car}}</p>
+                            
+                            <label>User ID Number</label>
+                            <p>{{obj.User}}</p>
+                            
+                            <label>Start</label>
+                            <p>{{obj.SD.toDateInputValue()}}</p>
+                            
+                            <label>End</label>
+                            <p>{{obj.ED.toDateInputValue()}}</p>
+                            
+                            <label>Returned...</label>
+                            <input ng-model="obj.RDate" type="date" disabled/>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Retrive Modal -->
+        <div class="modal fade" id="RModal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Change this row</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="wrap">
+                            <label>Car's Kilometraz Number Value</label>
+                            <input type="number" placeholder="Kilometraz" ng-model="kilo" />
+                            <br />
+
+                            <label>Returned In... </label>
+                            <input type="date" ng-model="RetDate" />
+                            <br />
+                            <br />
+                            <button type="button" class="btn btn-warning btn-lg" ng-click="Retrive(OrderId,RetDate.toDateInputValue(),kilo)">Retrive Car</button>
+                            <br />
+                            <br />
+                            <button type="button" class="btn btn-primary btn-lg" ng-click="Retrive(OrderId,'',0)">Reset</button>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+<script src="~/ServerScripts/EmployeeScripts.js"></script>
+
+    

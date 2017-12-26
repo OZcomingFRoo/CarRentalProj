@@ -1,0 +1,114 @@
+﻿
+@{
+    ViewBag.Title = "CEO_UsersCMD";
+}
+<h2>CEO_UsersCMD</h2>
+
+@Html.Partial("CEOnav")
+
+<div ng-controller="UserTableCtrl" ng-app="app">
+    <div class="row">
+        <div class="col-md-8">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            ID Number
+                        </th>
+                        <th>
+                            User Name
+                        </th>
+                        <th>
+                            Mail
+                        </th>
+                        <th>
+                            Options
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="User in ListResult">
+                        <td>{{User.Identity}} </td>
+                        <td>{{User.Name}} </td>
+                        <td>{{User.Mail}} </td>
+                        <td>
+                            <button class="btn btn-info" data-toggle="modal" data-target="#myModal" ng-click="Details(User.Identity)">Details</button>
+                            <a class="btn btn-primary" href="/CRSS/EditUser?id={{User.Identity}}">Edit</a>
+                            <button class="btn btn-danger" ng-click="Remove(User.Identity)">Remove</button> 
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        @* Table Result *@
+
+        <div class="col-md-4">
+            <div class="tabbable" id="tabs-894471">
+                <ul class="nav nav-tabs">
+                    <li>
+                        <a href="#panelname" data-toggle="tab">Name</a>
+                    </li>
+                    <li class="active">
+                        <a href="#panelid" data-toggle="tab">UserID</a>
+                    </li>
+                    <li class="active">
+                        <a href="#panelRefresh" data-toggle="tab" ng-click="Refresh()">Refresh</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane" id="panelname">
+                        <p>
+                            By Name
+                        </p>
+                        <input type="text" ng-model="name" />
+                        <button ng-click="SearchByName()">Filter</button>
+                    </div>
+                    <div class="tab-pane active" id="panelid">
+                        <p>
+                            By ID
+                        </p>
+                        <input type="text" ng-model="id" />
+                        <button ng-click="SearchById()">Filter</button>
+                    </div>
+                    <div class="tab-pane active" id="panelRefresh">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Details</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="wrap">
+                            <label>User Id Number</label>
+                            <p>{{obj.Idnum}}</p>
+                            <label>User Name</label>
+                            <p>{{obj.Name}}</p>
+                            <label>Email</label>
+                            <p>{{obj.Mail }}</p>
+                            <label>BirthDate</label>
+                            <p>{{obj.Mail }}</p>
+                            <label>Gender</label>
+                            <p>{{obj.Sex }}</p>
+                            <label>Gender</label>
+                            <p>{{obj.Bday}}</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/ServerScripts/CeoUserCMD.js"></script>
+

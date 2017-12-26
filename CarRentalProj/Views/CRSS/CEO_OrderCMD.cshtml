@@ -1,0 +1,140 @@
+﻿
+@{
+    ViewBag.Title = "CEO_OrderCMD";
+}
+
+<h2>CEO Order Command Control</h2>
+
+@Html.Partial("CEOnav")
+
+<div class="container-fluid" ng-app="app" ng-controller="RCarCtrl">
+
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            <h3>
+                Employee Control
+            </h3>
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+    @* Title *@
+
+    
+    <div class="row">
+        <div class="col-md-8">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            Car
+                        </th>
+                        <th>
+                            User Owner
+                        </th>
+                        <th>
+                            Change
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="Order in ListResult">
+                        <td>{{Order.OrderID}} </td>
+                        <td>{{Order.CarName}} ID =>  {{Order.CarIdNum}}</td>
+                        <td>{{Order.Owner}} </td>
+                        <td>
+                         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" ng-click="Details(Order.OrderID)">Details</button>
+                         <button type="button" class="btn btn-danger btn-lg" ng-click="Remove(Order.OrderID)">Remove</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        @* Table Result *@
+
+        <div class="col-md-4">
+            <h3>
+                Search by CarID or UserID
+            </h3>@*Search Title*@
+
+            <div class="tabbable" id="tabs-894471">
+                <ul class="nav nav-tabs">
+                    <li>
+                        <a href="#panelcar" data-toggle="tab">CarID</a>
+                    </li>
+                    <li class="active">
+                        <a href="#paneluser" data-toggle="tab">UserID</a>
+                    </li>
+                    <li class="active">
+                        <a href="#panelRefresh" data-toggle="tab" ng-click="Refresh()">Refresh</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane" id="panelcar">
+                        <p>
+                            Car Number ID
+                        </p>
+                        <input type="text" ng-model="CarID" />
+                        <button ng-click="SearchCar()">Filter</button>
+                    </div>
+                    <div class="tab-pane active" id="paneluser">
+                        <p>
+                            User ID
+                        </p>
+                        <input type="text" ng-model="UserID" />
+                        <button ng-click="SearchUser()">Filter</button>
+                    </div>
+                    <div class="tab-pane active" id="panelRefresh">
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Change this row</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="wrap">
+                        <label>Car Id Number</label>
+                        <p>{{obj.Car}}</p>
+
+                        <label>User ID Number</label>
+                        <p>{{obj.User}}</p>
+
+                        <label>Start</label>
+                        <p>{{obj.SD.toDateInputValue()}}</p>
+
+                        <label>End</label>
+                        <p>{{obj.ED.toDateInputValue()}}</p>
+
+                        <label>Returned...</label>
+                        <input ng-model="obj.RDate" type="date" disabled/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <a class="btn btn-info" href="/CRSS/EditRent?id={{obj.OrderNum}}">Edit</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+</div>
+<script src="~/ServerScripts/CeoOrderCMD.js"></script>
+

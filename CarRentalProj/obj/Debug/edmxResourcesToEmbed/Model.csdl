@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CarRentzModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="CarDetail">
+    <Key>
+      <PropertyRef Name="IDDetail" />
+    </Key>
+    <Property Name="IDDetail" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DailyRent" Type="Int32" />
+    <Property Name="LateRent" Type="Int32" />
+    <Property Name="GearType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="IsObsolete" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Cars" Relationship="Self.FK__Cars__Details__119F9925" FromRole="CarDetails" ToRole="Cars" />
+  </EntityType>
+  <EntityType Name="Car">
+    <Key>
+      <PropertyRef Name="CarID" />
+    </Key>
+    <Property Name="CarID" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Details" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="KiloMetraz" Type="Int32" />
+    <Property Name="IsOperational" Type="Boolean" Nullable="false" />
+    <Property Name="FactoryYear" Type="Int16" Nullable="false" />
+    <Property Name="Branch" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="CarDetail" Relationship="Self.FK__Cars__Details__119F9925" FromRole="Cars" ToRole="CarDetails" />
+    <NavigationProperty Name="ReservedCars" Relationship="Self.FK__ReservedC__CarID__5EDF0F2E" FromRole="Cars" ToRole="ReservedCars" />
+  </EntityType>
+  <EntityType Name="ReservedCar">
+    <Key>
+      <PropertyRef Name="ReservedID" />
+    </Key>
+    <Property Name="ReservedID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="ReturnedDate" Type="DateTime" Precision="0" />
+    <Property Name="UserID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CarID" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Car" Relationship="Self.FK__ReservedC__CarID__5EDF0F2E" FromRole="ReservedCars" ToRole="Cars" />
+    <NavigationProperty Name="User" Relationship="Self.FK__ReservedC__UserI__5FD33367" FromRole="ReservedCars" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="IDNumber" />
+    </Key>
+    <Property Name="IDNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="BirthDate" Type="DateTime" Precision="0" />
+    <Property Name="Gender" Type="String" MaxLength="7" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ReservedCars" Relationship="Self.FK__ReservedC__UserI__5FD33367" FromRole="Users" ToRole="ReservedCars" />
+  </EntityType>
+  <EntityType Name="Worker">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PSWD" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="profession" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Cars__Details__119F9925">
+    <End Role="CarDetails" Type="Self.CarDetail" Multiplicity="1" />
+    <End Role="Cars" Type="Self.Car" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarDetails">
+        <PropertyRef Name="IDDetail" />
+      </Principal>
+      <Dependent Role="Cars">
+        <PropertyRef Name="Details" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ReservedC__CarID__5EDF0F2E">
+    <End Role="Cars" Type="Self.Car" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ReservedCars" Type="Self.ReservedCar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cars">
+        <PropertyRef Name="CarID" />
+      </Principal>
+      <Dependent Role="ReservedCars">
+        <PropertyRef Name="CarID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ReservedC__UserI__5FD33367">
+    <End Role="Users" Type="Self.User" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ReservedCars" Type="Self.ReservedCar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="IDNumber" />
+      </Principal>
+      <Dependent Role="ReservedCars">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="CarRentzEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CarDetails" EntityType="Self.CarDetail" />
+    <EntitySet Name="Cars" EntityType="Self.Car" />
+    <EntitySet Name="ReservedCars" EntityType="Self.ReservedCar" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="Workers" EntityType="Self.Worker" />
+    <AssociationSet Name="FK__Cars__Details__119F9925" Association="Self.FK__Cars__Details__119F9925">
+      <End Role="CarDetails" EntitySet="CarDetails" />
+      <End Role="Cars" EntitySet="Cars" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ReservedC__CarID__5EDF0F2E" Association="Self.FK__ReservedC__CarID__5EDF0F2E">
+      <End Role="Cars" EntitySet="Cars" />
+      <End Role="ReservedCars" EntitySet="ReservedCars" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ReservedC__UserI__5FD33367" Association="Self.FK__ReservedC__UserI__5FD33367">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="ReservedCars" EntitySet="ReservedCars" />
+    </AssociationSet>
+    <FunctionImport Name="AdditionalSearch" ReturnType="Collection(CarRentzModel.AdditionalSearch_Result)">
+      <Parameter Name="Model" Mode="In" Type="String" />
+      <Parameter Name="Company" Mode="In" Type="String" />
+      <Parameter Name="GT" Mode="In" Type="String" />
+      <Parameter Name="DRent" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="CarDetailsChangeObs">
+      <Parameter Name="Id" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="CompanyTags" ReturnType="Collection(String)" />
+    <FunctionImport Name="GetNameOfRentedCar" ReturnType="Collection(String)">
+      <Parameter Name="id" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ModelTags" ReturnType="Collection(String)">
+      <Parameter Name="company" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="RentCar">
+      <Parameter Name="CarID" Mode="In" Type="String" />
+      <Parameter Name="UserID" Mode="In" Type="String" />
+      <Parameter Name="SD" Mode="In" Type="DateTime" />
+      <Parameter Name="ED" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateCar">
+      <Parameter Name="CarId" Mode="In" Type="String" />
+      <Parameter Name="Details" Mode="In" Type="String" />
+      <Parameter Name="Kilometraz" Mode="In" Type="Int32" />
+      <Parameter Name="IsOp" Mode="In" Type="Boolean" />
+      <Parameter Name="Branch" Mode="In" Type="String" />
+      <Parameter Name="YearFactory" Mode="In" Type="Int16" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateCarType">
+      <Parameter Name="Id" Mode="In" Type="String" />
+      <Parameter Name="Model" Mode="In" Type="String" />
+      <Parameter Name="Company" Mode="In" Type="String" />
+      <Parameter Name="DRent" Mode="In" Type="Int16" />
+      <Parameter Name="LRent" Mode="In" Type="Int16" />
+      <Parameter Name="GT" Mode="In" Type="String" />
+      <Parameter Name="IsObs" Mode="In" Type="Boolean" />
+      <Parameter Name="OldId" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateEmp">
+      <Parameter Name="Id" Mode="In" Type="String" />
+      <Parameter Name="Name" Mode="In" Type="String" />
+      <Parameter Name="Password" Mode="In" Type="String" />
+      <Parameter Name="Pro" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateOrder">
+      <Parameter Name="RentID" Mode="In" Type="Int32" />
+      <Parameter Name="CarID" Mode="In" Type="String" />
+      <Parameter Name="UserID" Mode="In" Type="String" />
+      <Parameter Name="SD" Mode="In" Type="DateTime" />
+      <Parameter Name="ED" Mode="In" Type="DateTime" />
+      <Parameter Name="ReturnedIn" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateProfile">
+      <Parameter Name="Id" Mode="In" Type="String" />
+      <Parameter Name="Name" Mode="In" Type="String" />
+      <Parameter Name="Sex" Mode="In" Type="String" />
+      <Parameter Name="Bdate" Mode="In" Type="DateTime" />
+      <Parameter Name="Email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateUser">
+      <Parameter Name="Id" Mode="In" Type="String" />
+      <Parameter Name="Name" Mode="In" Type="String" />
+      <Parameter Name="Sex" Mode="In" Type="String" />
+      <Parameter Name="Bdate" Mode="In" Type="DateTime" />
+      <Parameter Name="Email" Mode="In" Type="String" />
+      <Parameter Name="PSWD" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="AdditionalSearch_Result">
+    <Property Type="String" Name="CarID" Nullable="false" MaxLength="8" />
+    <Property Type="String" Name="Details" Nullable="false" MaxLength="10" />
+    <Property Type="Int32" Name="KiloMetraz" Nullable="true" />
+    <Property Type="Boolean" Name="IsOperational" Nullable="false" />
+    <Property Type="Int16" Name="FactoryYear" Nullable="false" />
+    <Property Type="String" Name="Branch" Nullable="true" MaxLength="50" />
+  </ComplexType>
+</Schema>

@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CarRentzModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CarDetails">
+    <Key>
+      <PropertyRef Name="IDDetail" />
+    </Key>
+    <Property Name="IDDetail" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="CompanyName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Model" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="DailyRent" Type="int" />
+    <Property Name="LateRent" Type="int" />
+    <Property Name="GearType" Type="nvarchar" MaxLength="10" />
+    <Property Name="IsObsolete" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Cars">
+    <Key>
+      <PropertyRef Name="CarID" />
+    </Key>
+    <Property Name="CarID" Type="nvarchar" MaxLength="8" Nullable="false" />
+    <Property Name="Details" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="KiloMetraz" Type="int" />
+    <Property Name="IsOperational" Type="bit" Nullable="false" />
+    <Property Name="FactoryYear" Type="smallint" Nullable="false" />
+    <Property Name="Branch" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="ReservedCars">
+    <Key>
+      <PropertyRef Name="ReservedID" />
+    </Key>
+    <Property Name="ReservedID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StartDate" Type="date" Nullable="false" />
+    <Property Name="EndDate" Type="date" Nullable="false" />
+    <Property Name="ReturnedDate" Type="date" />
+    <Property Name="UserID" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="CarID" Type="nvarchar" MaxLength="8" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="IDNumber" />
+    </Key>
+    <Property Name="IDNumber" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserPassword" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="BirthDate" Type="date" />
+    <Property Name="Gender" Type="nvarchar" MaxLength="7" />
+  </EntityType>
+  <EntityType Name="Workers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="FullName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="PSWD" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="profession" Type="nvarchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Cars__Details__119F9925">
+    <End Role="CarDetails" Type="Self.CarDetails" Multiplicity="1" />
+    <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarDetails">
+        <PropertyRef Name="IDDetail" />
+      </Principal>
+      <Dependent Role="Cars">
+        <PropertyRef Name="Details" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ReservedC__CarID__5EDF0F2E">
+    <End Role="Cars" Type="Self.Cars" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ReservedCars" Type="Self.ReservedCars" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cars">
+        <PropertyRef Name="CarID" />
+      </Principal>
+      <Dependent Role="ReservedCars">
+        <PropertyRef Name="CarID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ReservedC__UserI__5FD33367">
+    <End Role="Users" Type="Self.Users" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ReservedCars" Type="Self.ReservedCars" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="IDNumber" />
+      </Principal>
+      <Dependent Role="ReservedCars">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="AdditionalSearch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Model" Type="nvarchar" Mode="In" />
+    <Parameter Name="Company" Type="nvarchar" Mode="In" />
+    <Parameter Name="GT" Type="nvarchar" Mode="In" />
+    <Parameter Name="DRent" Type="int" Mode="In" />
+  </Function>
+  <Function Name="CarDetailsChangeObs" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="CompanyTags" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="GetNameOfRentedCar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="ModelTags" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="company" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="RentCar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CarID" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserID" Type="nvarchar" Mode="In" />
+    <Parameter Name="SD" Type="date" Mode="In" />
+    <Parameter Name="ED" Type="date" Mode="In" />
+  </Function>
+  <Function Name="UpdateCar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CarId" Type="nvarchar" Mode="In" />
+    <Parameter Name="Details" Type="nvarchar" Mode="In" />
+    <Parameter Name="Kilometraz" Type="int" Mode="In" />
+    <Parameter Name="IsOp" Type="bit" Mode="In" />
+    <Parameter Name="Branch" Type="nvarchar" Mode="In" />
+    <Parameter Name="YearFactory" Type="smallint" Mode="In" />
+  </Function>
+  <Function Name="UpdateCarType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="nvarchar" Mode="In" />
+    <Parameter Name="Model" Type="nvarchar" Mode="In" />
+    <Parameter Name="Company" Type="nvarchar" Mode="In" />
+    <Parameter Name="DRent" Type="smallint" Mode="In" />
+    <Parameter Name="LRent" Type="smallint" Mode="In" />
+    <Parameter Name="GT" Type="nvarchar" Mode="In" />
+    <Parameter Name="IsObs" Type="bit" Mode="In" />
+    <Parameter Name="OldId" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="UpdateEmp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="nvarchar" Mode="In" />
+    <Parameter Name="Name" Type="nvarchar" Mode="In" />
+    <Parameter Name="Password" Type="nvarchar" Mode="In" />
+    <Parameter Name="Pro" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="UpdateOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="RentID" Type="int" Mode="In" />
+    <Parameter Name="CarID" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserID" Type="nvarchar" Mode="In" />
+    <Parameter Name="SD" Type="date" Mode="In" />
+    <Parameter Name="ED" Type="date" Mode="In" />
+    <Parameter Name="ReturnedIn" Type="date" Mode="In" />
+  </Function>
+  <Function Name="UpdateProfile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="nvarchar" Mode="In" />
+    <Parameter Name="Name" Type="nvarchar" Mode="In" />
+    <Parameter Name="Sex" Type="nvarchar" Mode="In" />
+    <Parameter Name="Bdate" Type="date" Mode="In" />
+    <Parameter Name="Email" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="UpdateUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="nvarchar" Mode="In" />
+    <Parameter Name="Name" Type="nvarchar" Mode="In" />
+    <Parameter Name="Sex" Type="nvarchar" Mode="In" />
+    <Parameter Name="Bdate" Type="date" Mode="In" />
+    <Parameter Name="Email" Type="nvarchar" Mode="In" />
+    <Parameter Name="PSWD" Type="nvarchar" Mode="In" />
+  </Function>
+  <EntityContainer Name="CarRentzModelStoreContainer">
+    <EntitySet Name="CarDetails" EntityType="Self.CarDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Cars" EntityType="Self.Cars" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ReservedCars" EntityType="Self.ReservedCars" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Workers" EntityType="Self.Workers" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Cars__Details__119F9925" Association="Self.FK__Cars__Details__119F9925">
+      <End Role="CarDetails" EntitySet="CarDetails" />
+      <End Role="Cars" EntitySet="Cars" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ReservedC__CarID__5EDF0F2E" Association="Self.FK__ReservedC__CarID__5EDF0F2E">
+      <End Role="Cars" EntitySet="Cars" />
+      <End Role="ReservedCars" EntitySet="ReservedCars" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ReservedC__UserI__5FD33367" Association="Self.FK__ReservedC__UserI__5FD33367">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="ReservedCars" EntitySet="ReservedCars" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

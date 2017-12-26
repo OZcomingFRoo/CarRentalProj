@@ -1,0 +1,19 @@
+Some Points : 
+
+1.Admin ID and Password :
+ID - 022063465
+Password - Ss1234567
+
+2. to log to the server side , you can click on the link in the bottom of the page. the User "Sign in page" if for users only.
+The /CRSS/Main is for Employee loggings
+
+3.About Car Type Pictures : most pictures were added menually , so changing their profile image won't work because Visual Studio has its problems 
+BUT !!!! Cars Types' pictures that were added by the web program functions can be changed !!
+In other words , if you add a new Car Type with an image , you can change the image anytime you want !!
+
+4.Users and Workers have different tables.
+
+5.to create a user you , you'll need an acutal ID number.
+To disable : go to CSCode-> EntityFrameWorkExtention and delete the attribute [IdentityValidation].
+
+6.Give me 100 XD , just kidding

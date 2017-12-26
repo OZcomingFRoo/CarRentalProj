@@ -1,0 +1,68 @@
+﻿<h1> User Data Table </h1>
+
+
+<div class="row" ng-controller="CarTypeTableCtrl">
+    <div class="col-md-8">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        CarTypeID
+                    </th>
+                    <th>
+                        Car Name
+                    </th>
+                    <th>
+                        Gear
+                    </th>
+                    <th>
+                        Options
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="Car in ListResult">
+                    <td>{{Car.ID}} </td>
+                    <td>{{Car.Name}} </td>
+                    <td>{{Car.Gear}} </td>
+                    <td> <button>Details</button> <button>Edit</button> <button>Delete</button> </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    @* Table Result *@
+
+    <div class="col-md-4">
+        
+        <form>
+            <div class="form-group">
+                <label for="CarName">Car Name (Model/Company):</label>
+                <input type="text" name="CarName" ng-model="par" ng-keypress="SearchCarType()" />
+            </div>
+            <div class="form-group">
+                <label for="GT"> Gear Type </label>
+                <select ng-model="GT" class="form-control" name="GT" ng-change="SearchCarType()">
+                    <option>Auto</option>
+                    <option>Menual</option>
+                </select>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+     var app = angular.module('app', []);
+     app.controller('CarTypeTableCtrl', function ($scope, $http) {
+         $scope.par = "";
+         $scope.GT = "Auto";
+         $scope.ListResult = [];
+
+         $scope.SearchCarType = function () {
+             $http.get("/CRSS/SearchCarType?par=" + $scope.par +"&GT="+$scope.GT).then(function (response)
+             {
+                 $scope.ListResult = response.data;
+             });
+         }
+  });
+</script>

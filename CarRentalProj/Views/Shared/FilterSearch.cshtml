@@ -1,0 +1,75 @@
+﻿@*Form Here plz !*@
+@model CarRentalProj.Models.Filter
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<form id="form" action="~/CarRentz/ListOfCars">
+    <div class="form-group">
+        <label for="StartDate">Date to start using Car - </label>
+        <input type="date" id="SD" name="StartDate" required onchange="DateChk()"/>
+    </div>
+    <div class="form-group">
+        <label for="EndDate">Rental Expire Date - </label>
+        <input type="date" id="ED" name="EndDate" required onchange="DateChk()"/>
+    </div>
+    <div id="FadeWrapper" style="display: none;">
+        <div class="form-group">
+            <label for="Model">Model Name - </label>
+            <select class="form-control" name="Model" placeholder="Select Model !!">
+               <option id="MAny">Any</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="Company">Company - </label>
+            <select class="form-control" name="Company" id="changer">
+                <option>Any</option>
+                @{
+            foreach (var item in CarRentalProj.CSCode.Utility.CompanyTags())
+            {
+                        <option>@item</option>
+            }
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="DRant">Per Daily Rent- </label>
+            <select class="form-control" name="DRent">
+                <option value="000">Any</option>
+                <option value="40">30-50</option>
+                <option value="60">50-70</option>
+                <option value="80">70-90</option>
+                <option value="100">Above</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="GearType">GearType - </label>
+            <select class="form-control" name="GT">
+                <option>Any</option>
+                <option>Menual</option>
+                <option>Auto</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="OrderB">Order By </label>
+            <select name="OrderB" class="form-control">
+                <option value="none">Any</option>
+                <option value="desc">highest</option>
+                <option value="asc">Lowest</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="FTxt">Text (Car Name)</label>
+            <input name="FTxt" class="form-control" type="text">
+        </div>
+        <div class="form-group">
+            <label for="FYear">Factory Year</label>
+            <input name="FYear" class="form-control" type="number" placeholder="Any">
+        </div>
+    </div>
+    <input type="number" value="0" name="PageNum" class="hidden" />
+    <button id="Sub" class="btn btn-default" disabled>Filter</button>
+    <span id="DateAlert" hidden style="color:red"> <b>Rent Dates must be logical</b> </span>
+</form>
+<button id="AddFill" class="btn btn-primary" role="button" style="height:20%">Additional Filters</button>
+
+<script src="~/ClientScripts/FilterScripts.js"></script>
+

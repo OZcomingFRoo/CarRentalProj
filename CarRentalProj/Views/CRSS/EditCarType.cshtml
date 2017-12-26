@@ -1,0 +1,103 @@
+﻿@model CarRentalProj.CarDetail
+
+@{
+    ViewBag.Title = "EditCarType";
+}
+@Html.Partial("CEOnav")
+<h2>EditCarType</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>CarDetail</h4>
+        <hr />
+        <input type="text" value="@Model.IDDetail" name="old" class="hidden" />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.IDDetail, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IDDetail, new { htmlAttributes = new { @class = "form-control", @id = "r", @disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.IDDetail, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control", @id = "company", @onkeyup = "IdBuilder()" } })
+                @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Model, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Model, new { htmlAttributes = new { @class = "form-control", @id = "model", @onkeyup = "IdBuilder()" } })
+                @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DailyRent, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DailyRent, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                @Html.ValidationMessageFor(model => model.DailyRent, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LateRent, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LateRent, new { htmlAttributes = new { @class = "form-control", @type="number" } })
+                @Html.ValidationMessageFor(model => model.LateRent, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.GearType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select name="GearType" onchange="IdBuilder()" id="GT">
+                    @if (Model.GearType == "Auto")
+                    {
+                        <option>Auto</option>
+                        <option>Menual</option>
+                    }
+                    else
+                    {
+                        <option>Menual</option>
+                        <option>Auto</option>
+                    }
+                </select>
+                @Html.ValidationMessageFor(model => model.GearType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsObsolete, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IsObsolete, new { htmlAttributes = new { @class = "form-control"} })
+                @Html.ValidationMessageFor(model => model.IsObsolete, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+            <label>Pick Picture (jpg file ONLY) ,Note : if you're making the same model type car only with a different gear , you don't have to insert a new iamge</label>
+            <input type="file" value="Car Type Image (JPG)" id="Pic" onchange="CheckFileName()" />
+        <img src="~/CompanyIcons/@Model.Pic" alt="No image for this car type ,please add a jpg picture '" id="Prev" width="300" height="300"/>
+
+            <div class="form-group" hidden>
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" id="sub" />
+                </div>
+            </div>
+        </div>
+}
+<button onclick="sumbit()" id="send">Submit !!</button>
+
+<div>
+    @Html.ActionLink("Back to List", "CEO_CarTypeCMD")
+</div>
+<script src="~/ServerScripts/EditCarType.js"></script>
+
+

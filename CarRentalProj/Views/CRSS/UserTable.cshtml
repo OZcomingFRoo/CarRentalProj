@@ -1,0 +1,58 @@
+﻿<h1> User Data Table </h1>
+
+
+<div class="row" ng-controller="UserTableCtrl" >
+    <div class="col-md-8">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        ID Number
+                    </th>
+                    <th>
+                        User Name
+                    </th>
+                    <th>
+                        Mail
+                    </th>
+                    <th>
+                        Options
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="User in ListResult">
+                    <td>{{User.Identity}} </td>
+                    <td>{{User.Name}} </td>
+                    <td>{{User.Mail}} </td>
+                    <td> <button>Details</button> <button>Edit</button> <button>Delete</button> </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    @* Table Result *@
+
+    <div class="col-md-4">
+        <h3> Search By Name/Id or Email  </h3>@*Search Title*@
+
+        <input type="text" ng-model="par" ng-keypress="SearchUsers()"/>
+    </div>
+</div>
+
+
+<script>
+     var app = angular.module('app', []);
+     app.controller('UserTableCtrl', function ($scope, $http) {
+         $scope.par = "";
+         $scope.ListResult = [];
+
+         $scope.SearchUsers = function () {
+             $http.get("/CRSS/SearchUsers?par=" + $scope.par).then(function (response)
+             {
+                 $scope.ListResult = response.data;
+             });
+         }
+
+
+  });
+</script>

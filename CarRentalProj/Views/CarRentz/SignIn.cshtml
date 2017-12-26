@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "SignIn";
+}
+@Html.Partial("RegularNav")
+
+<h2>SignIn</h2>
+
+<h3>@ViewBag.ErrorMsg </h3>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-10">
+            <form action="/CarRentz/SignIn" method="post">
+                <div class="form-group">
+                    <label for="Id">User Identity Number</label>
+                    <input type="text" class="form-control" name="Id" />
+                </div>
+                <div class="form-group">
+                    <label for="password">
+                        Password
+                    </label>
+                    <input type="password" class="form-control" name="Password" id="PStoggle" />
+                    <input type="checkbox" onclick="show()">Show Password
+                </div>
+                <div class="form-group">
+                    <label for="Remember">Remember Me</label>
+                    <input type="checkbox" value="true" name="Remember" />
+                    <input type="hidden" value="false" name="Remember" />
+                </div>
+                <button type="submit" class="btn btn-default">
+                    Submit
+                </button>
+            </form>
+        </div>
+
+
+        <div class="col-md-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        You don't have an account ? 
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <a href="/CarRentz/SignUp">Make a new Account !!</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/ServerScripts/PasswordToggle.js"></script>
+

@@ -1,0 +1,117 @@
+﻿
+
+@model CarRentalProj.Models.CDetails
+
+@{
+    ViewBag.Title = "CarDetails";
+}
+@Html.Partial("Nav")
+
+<h1 style="color:red"> @ViewBag.MsgError </h1>
+
+<h2>CarDetails</h2>
+
+
+<div ng-app="app" ng-controller="Ctrl">
+    <div class="container-fluid" style="padding:7%">
+        <div class="row">
+            <div class="col-md-6">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="StartDate">
+                            Start Date
+                        </label>
+                        <input type="date" class="form-control" name="StartDate" style="width:22%; min-width:200px;" ng-model="SD"
+                               placeholder="yyyy-MM-dd" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="StartDate">
+                            End Date
+                        </label>
+                        <input type="date" class="form-control" name="StartDate" style="width:22%; min-width:200px;" ng-model="ED"
+                               placeholder="yyyy-MM-dd" required />
+                        <h4>
+                            Daily Rent {{ DRent }}
+                        </h4>
+                        <h4 style="color:red">
+                            Late Rent @Model.LateDaily
+                        </h4>
+                        <h4>
+                            Overall : {{((ED - SD) / (24 * 3600 * 1000)) * DRent | number:0}}₪
+                        </h4>
+
+                    </div>
+                    <button type="submit" class="btn btn-default" data-toggle="modal" data-target="#Modal1">
+                        Prococeed to Rent Car
+                    </button>
+                </form>
+            </div>
+            <div class="col-md-6">
+                @Html.Raw(Model.Details)
+                <img src="~/CompanyIcons/@Model.Pic" alt="@Model.Pic" />
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal True DON'T FORGET TO EDIT-->
+    <div class="modal fade" id="Modal1" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content" style="border-color:yellow; border-style:solid; border-width:thick">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Payment Stage</h4>
+                </div>
+                <div class="modal-body" style="border-color:yellow; border-style:solid; border-width:thick">
+                    <p>Are you sure about your payment ?</p>
+                </div>
+                <div class="modal-footer" style="border-color:yellow; border-style:solid; border-width:thick">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-default" href="/CarRentz/RentPayment?CID=@Model.CarID &SD={{SD.toDateInputValue()}}&ED={{ED.toDateInputValue()}}&DCost={{DRent}}">Proceed to checkout</a>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+ <!-- Modal Deny  DON'T FORGET TO EDIT-->
+<div class="modal fade" id="Modal2" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="border-color:red; border-style:solid; border-width:thick">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Access Denied !!!</h4>
+            </div>
+            <div class="modal-body" style="border-color:red; border-style:solid; border-width:thick">
+                <p>You must have a CarRentz account to Rent cars , would you like to <a href="/CarRentz/SignUp">Register</a>?</p>
+            </div>
+            <div class="modal-footer" style="border-color:red; border-style:solid; border-width:thick">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close Message</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    Date.prototype.toDateInputValue = (function () {
+        var local = new Date(this);
+        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+        return local.toJSON().slice(0, 10);
+    });
+    var app = angular.module('app', []); // This script cannot be created Externally, initializing date can only be preforms like this 
+    app.controller('Ctrl', function ($scope, $http , $window) {
+        $scope.DRent = @Model.DailyRent.ToString();
+        $scope.SD = new Date(' @Model.SD.ToShortDateString() ');
+        $scope.ED = new Date(' @Model.ED.ToShortDateString() ');
+        $scope.Status = false;
+        
+    });
+</script>

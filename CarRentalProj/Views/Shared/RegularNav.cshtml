@@ -1,0 +1,64 @@
+﻿<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                @*This is basiclly the three lines it creates for you , no need to Edit This!*@
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                @*This is basicly the three lines it creates for you , no need to Edit This!*@
+                </button>
+            @Html.ActionLink("Car Rentz", "Home", "CarRentz", new { area = "" }, new { @class = "navbar-brand" })
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-left">
+                <li style="padding-left:5px;"><a href="/CarRentz/AboutUs">About Us</a></li>
+                <li style="padding-left:5px;"><a href="/CarRentz/Policy">Our Policy</a></li>
+                <li style="padding-left:5px;"><button onclick="ShowStuff()" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#WishListModal">Wish List</button></li>
+            </ul>@*Left*@
+            <ul class="nav navbar-nav navbar-right">
+                <li style="padding-left:5px;"><a href="/CarRentz/SignUp"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li style="padding-left:5px;"><a href="/CarRentz/SignIn"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            </ul>@*Left*@
+        </div>
+    </div>
+</div>
+
+
+<div id="WishListModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="CloseWishList()">&times;</button>
+                <h4 class="modal-title">WishList</h4>
+            </div>
+            <div class="modal-body">
+                <p>So far...</p>
+                <ul id="list"></ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="CloseWishList()">Close</button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal" onclick="RemoveList()">Remove Current List</button>
+            </div>
+        </div>
+        <script>
+            function ShowStuff() {
+                var Arr = [];
+                var i = 0;
+                for (var key in localStorage) {
+                    $("#list").append("<li><a href=/CarRentz/CarDetails?CID=" + key + ">" + localStorage[key] + "</a></li>");
+                }
+
+            }
+            function RemoveList() {
+                localStorage.clear();
+                CloseWishList();
+            }
+            function CloseWishList()
+            {
+                $("#list").empty();
+            }
+        </script>
+    </div>
+</div>

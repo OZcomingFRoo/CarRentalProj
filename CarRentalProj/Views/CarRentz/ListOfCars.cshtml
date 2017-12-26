@@ -1,0 +1,74 @@
+﻿<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+@using CarRentalProj.Models
+@model List<CarLI>
+@{
+    ViewBag.Title = "ListOfCars";
+    DateTime SDate = ((CarRentalProj.Models.Filter)ViewData["Filter"]).StartDate;
+    DateTime EDate = ((CarRentalProj.Models.Filter)ViewData["Filter"]).EndDate;
+}
+@Html.Partial("Nav")
+<h2>ListOfCars</h2>
+
+<h2>Filter Reuslts </h2>
+
+<div class="container">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>מספר רישוי</th>
+                    <th>Company</th>
+                    <th>Model + FactoryYear</th>
+                    <th>Daily Rent</th>
+                    <th>Toatal Rent Cost</th>
+                    <th>Car Profile</th>
+                    <th>Add to Wish List</th>
+                    <th>For More ...</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var Jag = Model;
+                    foreach (var item in Jag)
+                    {
+                        <tr style="background-color:lightskyblue">
+                            <td style="font-size:xx-large">@item.CarID</td>
+                            <td style="font-size:xx-large">@item.Company</td>
+                            <td style="font-size:xx-large">@item.Model @item.FYear</td>
+                            <td style="font-size:xx-large">@item.DailyRent</td>
+                            <td style="font-size:xx-large">@item.TotalRent</td>
+                            <td><img width="200" height="200" src="~/CompanyIcons/@item.Pic" alt="@item.Pic" /></td>
+                            <th style="font-size:x-large"><button class="btn" style="background-color:gold" role="button" onclick="WishList('@item.CarID' ,  '@item.Model total of @item.TotalRent' )">Add to Wish List </button></th>
+                            <td style="font-size:x-large">@Html.ActionLink("Click For Add.. Info","CarDetails", new {CID = item.CarID , SD = SDate  , ED = EDate}, new { @target = "_blank" , @class="btn btn-info" , @role="button" })</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <ul class="pagination">
+            @{
+                short Len = (short)ViewBag.Len;
+                for (int j = 0; j < Len; j++)
+                {
+                    CarRentalProj.Models.Filter input = (CarRentalProj.Models.Filter)ViewData["Filter"];
+                    input.PageNum = (short)j;
+                    if ((int)ViewBag.Int == j)
+                    {
+		                    <li class="active"> @Html.ActionLink("P" + j, "ListOfCars", input) </li>
+                    }
+                    else
+                    {
+                        <li> @Html.ActionLink("P" + j, "ListOfCars", input) </li>
+                    }
+                }
+            }
+        </ul>
+    </div>
+</div>
+
+<h4 style="font-family:Arial"><a href="/CarRentz/Home"> New Search  <span class="glyphicons glyphicons-search"></span></a> </h4>
+<script src="~/ClientScripts/AddToWishList.js"></script>
+
+
+
+    
